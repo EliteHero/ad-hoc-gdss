@@ -34,7 +34,7 @@ new class extends Component {
 
         session(['participant_name' => $this->creatorName, 'is_creator' => true]);
 
-        return $this->redirect(route('setup', ['code' => $session->code]));
+        return $this->redirect(route('lobby', ['code' => $session->code]));
     }
 
     public function joinSession()
@@ -65,7 +65,10 @@ new class extends Component {
         <h2>Create a Session</h2>
         <input type="text" wire:model="title" placeholder="Session title" />
         <input type="text" wire:model="creatorName" placeholder="Your name" />
-        <button wire:click="createSession">Create</button>
+        <button wire:click="createSession" wire:loading.attr="disabled">
+            <span wire:loading.remove>Create</span>
+            <span wire:loading>Creating...</span>
+        </button>
         @error('title') <span>{{ $message }}</span> @enderror
         @error('creatorName') <span>{{ $message }}</span> @enderror
     </div>
@@ -74,7 +77,10 @@ new class extends Component {
         <h2>Join a Session</h2>
         <input type="text" wire:model="joinCode" placeholder="Session code" />
         <input type="text" wire:model="joinName" placeholder="Your name" />
-        <button wire:click="joinSession">Join</button>
+        <button wire:click="joinSession" wire:loading.attr="disabled">
+            <span wire:loading.remove>Join</span>
+            <span wire:loading>Joining...</span>
+        </button>
         @error('joinCode') <span>{{ $message }}</span> @enderror
         @error('joinName') <span>{{ $message }}</span> @enderror
     </div>
