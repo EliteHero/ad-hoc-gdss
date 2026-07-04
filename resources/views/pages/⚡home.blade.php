@@ -27,12 +27,16 @@ new class extends Component {
             'status' => 'setup',
         ]);
 
-        Participant::create([
+        $participant = Participant::create([
             'session_id' => $session->id,
             'name' => $this->creatorName,
         ]);
 
-        session(['participant_name' => $this->creatorName, 'is_creator' => true]);
+        session([
+            'participant_name' => $this->creatorName, 
+            'participant_id' => $participant->id,
+            'is_creator' => true
+        ]);
 
         return $this->redirect(route('lobby', ['code' => $session->code]));
     }
@@ -51,7 +55,11 @@ new class extends Component {
             'name' => $this->joinName,
         ]);
 
-        session(['participant_name' => $this->joinName, 'is_creator' => false]);
+        session([
+            'participant_name' => $this->joinName,
+            'participant_id' => $participant->id,
+            'is_creator' => false
+        ]);
 
         return $this->redirect(route('lobby', ['code' => $session->code]));
     }
